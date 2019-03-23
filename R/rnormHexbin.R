@@ -9,7 +9,7 @@ rnormHexbin <- function(stdev, width = NULL, height = NULL, elementId = NULL) {
 
   # forward options using x
   x = list(
-    stdev = message
+    stdev = stdev
   )
 
   # create widget
