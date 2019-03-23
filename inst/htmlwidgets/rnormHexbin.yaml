@@ -1,0 +1,10 @@
+# (uncomment to add a dependency)
+ dependencies:
+  - name: d3
+    version: 5.9.2
+    src: htmlwidgets/lib/d3-5.9.2
+    script: d3.v5.min.js
+  - name: d3-hexbin
+    version: 0.2.2
+    src: htmlwidgets/lib/d3-hexbin-0.2.2
+    script: d3-hexbin.v0.2.min.js
