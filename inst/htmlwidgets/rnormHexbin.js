@@ -105,7 +105,7 @@ HTMLWidgets.widget({
         gHistTop.append("g")
           .attr("class", "hist-x-axis")
           .attr("transform", "translate(0," + histogram.height + ")")
-          .call(xAxis.tickSize(6).tickValues([0, 50, 100, 150, 200, 250, 300]));
+          .call(d3.axisBottom(xScale));
           
         const gHistTopChart = gHistTop.append("g")
           .attr("class", "hist-chart");
@@ -136,7 +136,7 @@ HTMLWidgets.widget({
         gHistRight.append("g")
           .attr("class", "hist-y-axis")
           .attr("transform", "translate(0" + "," + histogram.height + ")")
-          .call(yAxis.tickSize(6).tickValues([0, 50, 100, 150, 200, 250, 300]));
+          .call(d3.axisLeft(yScale));
           
         const gHistRightChart = gHistRight.append("g")
           .attr("class", "hist-chart")
