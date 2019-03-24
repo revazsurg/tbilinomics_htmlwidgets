@@ -14,14 +14,17 @@ HTMLWidgets.widget({
     };
     
     const histogram = {
-      height: 0.25 * height
-    }
+      //height: 0.25 * height
+      height: 0
+    };
     
-    const w = height - margin.left - 2 * margin.right - histogram.height;
-    const h = height - 2 * margin.top - margin.bottom - histogram.height;
+    // const w = width - margin.left - 2 * margin.right - histogram.height;
+    // const h = height - 2 * margin.top - margin.bottom - histogram.height;
+    const w = width - margin.left - margin.right - histogram.height;
+    const h = height - margin.top - margin.bottom - histogram.height;
 
     var svg = d3.select(el).append("svg")
-      .attr("width", height)
+      .attr("width", width)
       .attr("height", height);
 
     return {
@@ -45,7 +48,8 @@ HTMLWidgets.widget({
         
         const hexPlot = svg.append("g")
           .attr("class", "hex-plot")
-          .attr("transform", "translate(" + margin.left + "," + (2 * margin.top + histogram.height) + ")");
+          //.attr("transform", "translate(" + margin.left + "," + (2 * margin.top + histogram.height) + ")");
+          .attr("transform", "translate(" + margin.left + "," + (margin.top + histogram.height) + ")");
         
         hexPlot.append("clipPath")
           .attr("id", "hex-clip")
@@ -87,7 +91,7 @@ HTMLWidgets.widget({
         hexPlot.append("g").attr("class", "hex-y-axis axis-right")
           .attr("transform", "translate(" + w + ", 0)")
           .call(yAxisRight.tickSize(0).tickValues([]));
-       
+/*       
         // Add histograms
         
         const bins = d3.histogram()
@@ -157,25 +161,26 @@ HTMLWidgets.widget({
           .attr("width", d => yScaleRight(d.length))
           .attr("height", d => xScale(d.x1 - d.x0) - 1)
           .style("fill", "steelblue");
-      
+*/     
       },
 
       resize: function(width, height) {
 
         const margin = {
-          top: 40,
-          bottom: 40,
-          left: 40,
-          right: 40
+          top: 0.1 * height,
+          bottom: 0.1 * height,
+          left: 0.1 * height,
+          right: 0.1 * height
         };
     
         const histogram = {
-          height: 100
-        }
+          //height: 0.25 * height
+          height: 0
+        };
 
         var svg = d3.select(el).append("svg")
-          .attr("width", height + histogram.height + margin.top)
-          .attr("height", height + histogram.height + margin.top);
+          .attr("width", width)
+          .attr("height", height);
           
       }
     };
