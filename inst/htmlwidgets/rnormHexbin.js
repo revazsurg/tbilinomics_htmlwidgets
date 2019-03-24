@@ -7,37 +7,37 @@ HTMLWidgets.widget({
   factory: function(el, width, height) {
 
     const margin = {
-      top: 40,
-      bottom: 40,
-      left: 40,
-      right: 40
+      top: 0.1 * height,
+      bottom: 0.1 * height,
+      left: 0.1 * height,
+      right: 0.1 * height
     };
     
     const histogram = {
-      height: 100
+      height: 0.25 * height
     }
     
-    const w = height - margin.left - margin.right;
-    const h = height - margin.top - margin.bottom;
+    const w = height - margin.left - 2 * margin.right - histogram.height;
+    const h = height - 2 * margin.top - margin.bottom - histogram.height;
 
     var svg = d3.select(el).append("svg")
-      .attr("width", height + histogram.height + margin.top)
-      .attr("height", height + histogram.height + margin.top);
+      .attr("width", height)
+      .attr("height", height);
 
     return {
 
       renderValue: function(widgetInput) {
-
+        
         // Generate data points
         
-        const randX = d3.randomNormal(w / 2, widgetInput.stdev[0]);
-        const randY = d3.randomNormal(h / 2, widgetInput.stdev[1]);
+        let randX = d3.randomNormal(w / 2, widgetInput.stdev[0]);
+        let randY = d3.randomNormal(h / 2, widgetInput.stdev[1]);
         
-        const points = d3.range(20000).map(() => [randX(), randY()]);
+        let points = d3.range(20000).map(() => [randX(), randY()]);
         
         // Plot hexbin
         
-        const hexbin = d3.hexbin().size([w, h]).radius(5);
+        const hexbin = d3.hexbin().size([w, h]).radius(2);
         
         const color = d3.scaleLinear().domain([0,10])
           .range(["white", "steelblue"])
@@ -57,7 +57,7 @@ HTMLWidgets.widget({
           .attr("clip-path", "url(#hex-clip)")
           .selectAll(".hexagon")
           .data(hexbin(points));
-         
+        
         hexagon.enter()
           .append("path")
           .attr("class", "hexagon")
@@ -87,7 +87,7 @@ HTMLWidgets.widget({
         hexPlot.append("g").attr("class", "hex-y-axis axis-right")
           .attr("transform", "translate(" + w + ", 0)")
           .call(yAxisRight.tickSize(0).tickValues([]));
-        
+       
         // Add histograms
         
         const bins = d3.histogram()
@@ -108,14 +108,15 @@ HTMLWidgets.widget({
           .call(d3.axisBottom(xScale));
           
         const gHistTopChart = gHistTop.append("g")
-          .attr("class", "hist-chart");
+          .attr("class", "hist-chart")
+          .selectAll(".bar")
+          .data(histTop);
         
         const yScaleTop = d3.scaleLinear()
           .domain([0, d3.max(histTop, d => d.length)])
           .range([0, histogram.height]);
           
-        gHistTopChart.selectAll(".bar")
-          .data(histTop)
+        gHistTopChart
           .enter()
           .append("rect")
           .attr("class", "bar")
@@ -124,7 +125,7 @@ HTMLWidgets.widget({
           .attr("width", d => xScale(d.x1 - d.x0) - 1)
           .attr("height", d => yScaleTop(d.length))
           .style("fill", "steelblue");
-        
+
         // Add right histogram
           
         const histRight = bins(points.map(d => d[1]));
@@ -156,7 +157,7 @@ HTMLWidgets.widget({
           .attr("width", d => yScaleRight(d.length))
           .attr("height", d => xScale(d.x1 - d.x0) - 1)
           .style("fill", "steelblue");
-        
+      
       },
 
       resize: function(width, height) {
