@@ -33,10 +33,10 @@ HTMLWidgets.widget({
         
         // Generate data points
         
-        let randX = d3.randomNormal(w / 2, widgetInput.stdev[0]);
-        let randY = d3.randomNormal(h / 2, widgetInput.stdev[1]);
+        let randX = d3.randomNormal(0, 1);
+        let randY = d3.randomNormal(0, 1);
         
-        let points = d3.range(20000).map(() => [randX(), randY()]);
+        let points = d3.range(20000).map(() => [randX(), randY()]).map(z => [(w / 2) + Math.sqrt(widgetInput.var1) * z[0], (h / 2) + widgetInput.covar / Math.sqrt(widgetInput.var1) * z[0] + Math.sqrt(widgetInput.var2 - Math.pow(widgetInput.covar, 2) / widgetInput.var1 ) * z[1]]);
         
         // Plot hexbin
         

@@ -5,11 +5,13 @@
 #' @import htmlwidgets
 #'
 #' @export
-rnormHexbin <- function(stdev, width = NULL, height = NULL, elementId = NULL) {
+rnormHexbin <- function(params, width = NULL, height = NULL, elementId = NULL) {
 
   # forward options using x
   x = list(
-    stdev = stdev
+    var1 = params$var1,
+    var2 = params$var2,
+    covar = params$covar
   )
 
   # create widget
