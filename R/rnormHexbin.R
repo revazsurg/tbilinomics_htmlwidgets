@@ -6,12 +6,20 @@
 #'
 #' @export
 rnormHexbin <- function(params, width = NULL, height = NULL, elementId = NULL) {
-
+  
+  c <- matrix(c(params$var1, params$covar, params$covar, params$var2), ncol = 2)
+  q <- t(chol(c))
+  
+  z1 <- rnorm(params$num, 0, 1)
+  z2 <- rnorm(params$num, 0, 1)
+  
+  z <- rbind(z1, z2)
+  
+  y <- t(q %*% z)
+  
   # forward options using x
   x = list(
-    var1 = params$var1,
-    var2 = params$var2,
-    covar = params$covar
+    data = y
   )
 
   # create widget

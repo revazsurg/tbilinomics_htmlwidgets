@@ -36,8 +36,11 @@ HTMLWidgets.widget({
         let randX = d3.randomNormal(0, 1);
         let randY = d3.randomNormal(0, 1);
         
-        let points = d3.range(20000).map(() => [randX(), randY()]).map(z => [(w / 2) + Math.sqrt(widgetInput.var1) * z[0], (h / 2) + widgetInput.covar / Math.sqrt(widgetInput.var1) * z[0] + Math.sqrt(widgetInput.var2 - Math.pow(widgetInput.covar, 2) / widgetInput.var1 ) * z[1]]);
+        //let points = d3.range(20000).map(() => [randX(), randY()]).map(z => [(w / 2) + Math.sqrt(widgetInput.var1) * z[0], (h / 2) + widgetInput.covar / Math.sqrt(widgetInput.var1) * z[0] + Math.sqrt(widgetInput.var2 - Math.pow(widgetInput.covar, 2) / widgetInput.var1 ) * z[1]]);
         
+        let points = widgetInput.data.map(y => [w / 2 + y[0], h / 2 + y[1]]);
+        
+        console.log(widgetInput.data)
         // Plot hexbin
         
         const hexbin = d3.hexbin().size([w, h]).radius(2);
