@@ -19,7 +19,8 @@ rnormHexbin <- function(params, width = NULL, height = NULL, elementId = NULL) {
   
   # forward options using x
   x = list(
-    data = y
+    data = y,
+    color = params$color
   )
 
   # create widget

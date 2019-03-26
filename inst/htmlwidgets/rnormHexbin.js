@@ -40,13 +40,12 @@ HTMLWidgets.widget({
         
         let points = widgetInput.data.map(y => [w / 2 + y[0], h / 2 + y[1]]);
         
-        console.log(widgetInput.data)
         // Plot hexbin
         
         const hexbin = d3.hexbin().size([w, h]).radius(2);
         
         const color = d3.scaleLinear().domain([0,10])
-          .range(["white", "steelblue"])
+          .range(["white", widgetInput.color])
           .interpolate(d3.interpolateRgb);
         
         const hexPlot = svg.append("g")
